@@ -4,7 +4,7 @@
 | Column                | Type           | Options                         |
 |--------------------------------------------------------------------------|
 | nickname              | string         | null:false                      |
-| email                 | string         | null:false                      |
+| email                 | string         | null:false, unique:true         |
 | encrypted_password    | string         | null:false                      |
 | first_name            | string         | null:false                      |
 | last_name             | string         | null:false                      |
@@ -69,10 +69,10 @@
 | house_number          | string         | null:false                      |
 | building_name         | string         |                                 |
 | phone_number          | string         | null:false                      |
-| item                  | references     | null:false,foreign_key:true     |
+| purchase_history      | references     | null:false,foreign_key:true     |
 
 ### association
-- belongs_to :item
+- belongs_to :purchase_history
 
 ### other
 - using ActiveHash(prefecture)
