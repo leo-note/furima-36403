@@ -8,8 +8,6 @@
 | encrypted_password    | string         | null:false                      |
 | first_name            | string         | null:false                      |
 | last_name             | string         | null:false                      |
-| first_name_kanji      | string         | null:false                      |
-| last_name_kanji       | string         | null:false                      |
 | first_name_kana       | string         | null:false                      |
 | last_name_kana        | string         | null:false                      |
 | birth_date            | date           | null:false                      |
@@ -35,7 +33,7 @@
 ### association
 - belongs_to :user
 - has_many :comments
-- has_one :purchase_histories
+- has_one :purchase_history
 
 ### other
 - using ActiveStorage and ActiveHash(category,status,postage_defrayer,prefecture,day_to_ship)
@@ -60,19 +58,7 @@
 ### association
 - belongs_to :user
 - belongs_to :item
-- has_one :card_information
 - has_one :shipping_address
-
-## card_informations テーブル
-| Column                | Type           | Options                         |
-|--------------------------------------------------------------------------|
-| card_number           | string         | null:false                      |
-| card_expiration_date  | string         | null:false                      |
-| card_security_code    | string         | null:false                      |
-| item                  | references     | null:false,foreign_key:true     |
-
-### association
-- belongs_to :item
 
 ## shipping_addresses テーブル
 | Column                | Type           | Options                         |
@@ -80,8 +66,8 @@
 | postal_code           | string         | null:false                      |
 | prefecture_id         | string         | null:false                      |
 | city                  | string         | null:false                      |
-| house_number          | text           | null:false                      |
-| building_name         | text           |                                 |
+| house_number          | string         | null:false                      |
+| building_name         | string         |                                 |
 | phone_number          | string         | null:false                      |
 | item                  | references     | null:false,foreign_key:true     |
 
