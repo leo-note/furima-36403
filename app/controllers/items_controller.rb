@@ -24,16 +24,12 @@ class ItemsController < ApplicationController
   end
 
   def show
-    set_item
   end
 
   def edit
-    set_item
   end
 
   def update
-    set_item
-
     if @item.update(item_params)
       redirect_to item_path(@item)
     else
