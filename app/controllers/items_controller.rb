@@ -1,6 +1,6 @@
 class ItemsController < ApplicationController
   # アクセス制御
-  before_action :authenticate_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
   before_action :move_page, only: [:edit, :update, :destroy]
   # 共通処理
   before_action :set_item, only: [:show, :edit, :update, :destroy]
