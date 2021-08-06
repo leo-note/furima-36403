@@ -47,7 +47,8 @@ class ItemsController < ApplicationController
   def move_page
     item = Item.find(params[:id])
 
-    if current_user.id != item.user.id
+    # 自分が出品した商品以外、または売却済みの商品は編集・削除できない
+    if (current_user.id != item.user.id) || !item.purchase_history.nil?
       redirect_to root_path
     end
   end

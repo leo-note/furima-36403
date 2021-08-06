@@ -126,7 +126,7 @@
 
     <div class="sell-btn-contents">
      <%# 出品時と編集時で表示内容を変更する %>
-     <% if item.id == nil %>
+     <% if item.id.nil? %>
       <%= f.submit "出品する" ,class:"sell-btn" %>
       <%=link_to 'もどる', root_path, class:"back-btn" %>
      <% else %>
