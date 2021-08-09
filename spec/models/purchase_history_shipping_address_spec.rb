@@ -4,12 +4,12 @@ RSpec.describe PurchaseHistoryShippingAddress, type: :model do
   before do
     # タイムアウト防止のためsleep処理を実施
     user = FactoryBot.create(:user)
-    sleep 1.5
+    sleep 2.0
     item = FactoryBot.create(:item)
-    sleep 1.5
+    sleep 2.0
     @purchase_history_shipping_address = FactoryBot.build(:purchase_history_shipping_address,
                                                           user_id: user.id, item_id: item.id)
-    sleep 1.0
+    sleep 4.0
   end
 
   describe '商品購入' do
@@ -25,7 +25,7 @@ RSpec.describe PurchaseHistoryShippingAddress, type: :model do
 
       it 'phone_numberは10桁もしくは11桁なら登録できる' do
         # FactoryBotで生成するphone_numberは10桁なので10桁ケースは上記で実施済
-        @purchase_history_shipping_address.building_name = 12345678901
+        @purchase_history_shipping_address.phone_number = "12345678901"
         expect(@purchase_history_shipping_address).to be_valid
       end
     end
@@ -57,7 +57,7 @@ RSpec.describe PurchaseHistoryShippingAddress, type: :model do
       end
 
       it 'phone_numberがないと登録できない' do
-        @purchase_history_shipping_address.phone_number = nil
+        @purchase_history_shipping_address.phone_number = ''
         @purchase_history_shipping_address.valid?
         expect(@purchase_history_shipping_address.errors.full_messages)
               .to include("Phone number can't be blank")
@@ -81,8 +81,14 @@ RSpec.describe PurchaseHistoryShippingAddress, type: :model do
         expect(@purchase_history_shipping_address.errors.full_messages).to include("Token can't be blank")
       end
 
-      it 'postal_codeは「xxx-xxxx」の半角文字列以外は保存できない' do
+      it 'postal_codeはアルファベットなど「xxx-xxxx」の半角文字列以外は保存できない' do
         @purchase_history_shipping_address.postal_code = '1234aaa'
+        @purchase_history_shipping_address.valid?
+        expect(@purchase_history_shipping_address.errors.full_messages).to include("Postal code is invalid")
+      end
+
+      it 'postal_codeは「-」を含まないなど「xxx-xxxx」の半角文字列以外は保存できない' do
+        @purchase_history_shipping_address.postal_code = '1234567'
         @purchase_history_shipping_address.valid?
         expect(@purchase_history_shipping_address.errors.full_messages).to include("Postal code is invalid")
       end
@@ -106,13 +112,13 @@ RSpec.describe PurchaseHistoryShippingAddress, type: :model do
       end
 
       it 'phone_numberは9桁以下だと登録できない' do
-        @purchase_history_shipping_address.phone_number = 123456789
+        @purchase_history_shipping_address.phone_number = '123456789'
         @purchase_history_shipping_address.valid?
         expect(@purchase_history_shipping_address.errors.full_messages).to include("Phone number is too short (minimum is 10 characters)")
       end
 
       it 'phone_numberは12桁以上だと登録できない' do
-        @purchase_history_shipping_address.phone_number = 123456789012
+        @purchase_history_shipping_address.phone_number = '123456789012'
         @purchase_history_shipping_address.valid?
         expect(@purchase_history_shipping_address.errors.full_messages).to include("Phone number is too long (maximum is 11 characters)")
       end
