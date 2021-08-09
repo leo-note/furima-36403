@@ -1,12 +1,13 @@
 class PurchaseHistoryShippingAddress
   include ActiveModel::Model
-  attr_accessor :user_id, :item_id,
+  attr_accessor :user_id, :item_id, :token,
                 :postal_code, :prefecture_id, :city, :house_number, :building_name, :phone_number
 
   # 入力必須チェック
   with_options presence: true do
     validates :user_id
     validates :item_id
+    validates :token
     validates :postal_code
     validates :prefecture_id
     validates :city

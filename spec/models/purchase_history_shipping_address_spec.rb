@@ -4,17 +4,17 @@ RSpec.describe PurchaseHistoryShippingAddress, type: :model do
   before do
     # タイムアウト防止のためsleep処理を実施
     user = FactoryBot.create(:user)
-    sleep 0.2
+    sleep 1.5
     item = FactoryBot.create(:item)
-    sleep 0.2
+    sleep 1.5
     @purchase_history_shipping_address = FactoryBot.build(:purchase_history_shipping_address,
                                                           user_id: user.id, item_id: item.id)
-    sleep 0.2
+    sleep 1.0
   end
 
   describe '商品購入' do
     context '商品購入できるとき' do
-      it 'postal_code,prefecture_id,city,house_number,phone_number,user_id,item_idがあれば登録できる' do
+      it 'postal_code,prefecture_id,city,house_number,phone_number,user_id,item_id,tokenがあれば登録できる' do
         expect(@purchase_history_shipping_address).to be_valid
       end
 
@@ -73,6 +73,12 @@ RSpec.describe PurchaseHistoryShippingAddress, type: :model do
         @purchase_history_shipping_address.item_id = nil
         @purchase_history_shipping_address.valid?
         expect(@purchase_history_shipping_address.errors.full_messages).to include("Item can't be blank")
+      end
+
+      it 'tokenがないと登録できない' do
+        @purchase_history_shipping_address.token = nil
+        @purchase_history_shipping_address.valid?
+        expect(@purchase_history_shipping_address.errors.full_messages).to include("Token can't be blank")
       end
 
       it 'postal_codeは「xxx-xxxx」の半角文字列以外は保存できない' do
